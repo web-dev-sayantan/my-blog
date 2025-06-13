@@ -6,7 +6,7 @@ import matter from "gray-matter";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function getLatestPost() {
-  const postsDir = path.join(process.cwd(), "src/content/blog");
+  const postsDir = path.join(process.cwd(), "src/data/blogs");
   const files = fs.readdirSync(postsDir);
 
   const posts = files
@@ -17,7 +17,7 @@ async function getLatestPost() {
       const { data } = matter(content);
 
       return {
-        slug: file.replace(/\.(md|mdx)$/, ""),
+        id: file.replace(/\.(md|mdx)$/, ""),
         data: {
           ...data,
           pubDate: new Date(data.pubDate),
@@ -53,7 +53,7 @@ async function sendNewsletter() {
 
     console.log(`Sending to ${contacts.data.length} subscribers`);
 
-    const postUrl = `${process.env.SITE_URL}/blog/${latestPost.slug}`;
+    const postUrl = `${process.env.SITE_URL}/blogs/${latestPost.id}`;
 
     // Send email
     const emailData = await resend.emails.send({

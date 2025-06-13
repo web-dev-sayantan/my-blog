@@ -7,6 +7,8 @@ const allPosts = await getCollection("blog", ({ data }) => {
   return !data.draft;
 });
 
+console.log("All posts:", allPosts);
+
 const sortedPosts = allPosts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
@@ -21,18 +23,18 @@ const recentPosts = sortedPosts.slice(0, 3);
   <div class="max-w-4xl mx-auto px-4 py-12">
     <!-- Hero Section -->
     <section class="text-center mb-16">
-      <h1 class="text-5xl font-bold mb-6">
+      <h1 class="text-5xl font-header font-bold mb-6">
         Hey, I'm <span class="text-blue-600">Sayantan</span>
       </h1>
       <p
-        class="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto"
+        class="text-xl font-blog text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto"
       >
         Software developer sharing insights about technology, coding, and life.
         Welcome to my corner of the internet.
       </p>
       <div class="flex justify-center gap-4">
         <a
-          href="/blog"
+          href="/blogs"
           class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
         >
           Read My Blog
@@ -51,7 +53,7 @@ const recentPosts = sortedPosts.slice(0, 3);
 
     <!-- Recent Posts -->
     <section>
-      <h2 class="text-3xl font-bold mb-8">Recent Posts</h2>
+      <h2 class="text-3xl font-header font-bold mb-8">Recent Posts</h2>
       <div class="grid gap-8">
         {
           recentPosts.map((post) => (
@@ -62,16 +64,16 @@ const recentPosts = sortedPosts.slice(0, 3);
                 </span>
               </div>
 
-              <h3 class="text-xl font-semibold mb-2">
+              <h3 class="text-lg font-semibold mb-2">
                 <a
-                  href={`/blog/${post.slug}`}
+                  href={`/blogs/${post.id}`}
                   class="hover:text-blue-600 transition-colors"
                 >
                   {post.data.title}
                 </a>
               </h3>
 
-              <p class="text-gray-600 dark:text-gray-400 mb-4">
+              <p class="text-gray-600 font-blog dark:text-gray-400 mb-4">
                 {post.data.description}
               </p>
 
@@ -85,7 +87,7 @@ const recentPosts = sortedPosts.slice(0, 3);
                 </time>
 
                 {post.data.tags.length > 0 && (
-                  <div class="flex gap-2">
+                  <div class="flex gap-2 italic">
                     {post.data.tags.slice(0, 3).map((tag) => (
                       <span class="text-xs">#{tag}</span>
                     ))}
@@ -101,7 +103,7 @@ const recentPosts = sortedPosts.slice(0, 3);
         sortedPosts.length > 3 && (
           <div class="text-center mt-8">
             <a
-              href="/blog"
+              href="/blogs"
               class="text-blue-600 hover:text-blue-700 font-medium"
             >
               View all posts →

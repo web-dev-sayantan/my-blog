@@ -16,6 +16,12 @@ const { title, description } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
@@ -39,17 +45,14 @@ const { title, description } = Astro.props;
           <div class="flex justify-between items-center">
             <a
               href="/"
-              class="text-xl font-bold hover:text-blue-600 transition-colors"
+              class="text-xl font-header font-bold hover:text-blue-600 transition-colors"
             >
               Sayantan's Blog
             </a>
             <div class="flex items-center space-x-6">
               <a href="/" class="hover:text-blue-600 transition-colors">Home</a>
-              <a href="/blog" class="hover:text-blue-600 transition-colors"
+              <a href="/blogs" class="hover:text-blue-600 transition-colors"
                 >Blog</a
-              >
-              <a href="/rss.xml" class="hover:text-blue-600 transition-colors"
-                >RSS</a
               >
               <ThemeToggle />
             </div>
@@ -65,7 +68,7 @@ const { title, description } = Astro.props;
         <div
           class="max-w-4xl mx-auto px-4 py-6 text-center text-gray-600 dark:text-gray-400"
         >
-          <p>&copy; 2025 Sayantan. Built with Astro.</p>
+          <p class="text-sm">&copy; 2025 Sayantan. Built with Astro.</p>
         </div>
       </footer>
     </div>

@@ -5,6 +5,9 @@
 @theme {
   --color-primary: #3b82f6;
   --color-primary-dark: #1d4ed8;
+  --font-blog: "Cormorant Garamond", "serif";
+  --font-base: "Open Sans", "sans-serif";
+  --font-header: "Raleway", "Open Sans", "sans-serif";
 }
 
 /* Ensure smooth transitions */
@@ -24,4 +27,8 @@
 /* Custom scrollbar for dark mode */
 ::-webkit-scrollbar {
   width: 8px;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
 }

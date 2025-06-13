@@ -3,7 +3,7 @@ name: Send Newsletter on New Post
 on:
   push:
     branches: [main]
-    paths: ["src/content/blog/**"]
+    paths: ["src/data/blogs/**"]
 
 jobs:
   send-newsletter:
@@ -25,7 +25,7 @@ jobs:
       - name: Check for new blog posts
         id: check-posts
         run: |
-          NEW_POSTS=$(git diff --name-only HEAD~1 HEAD -- src/content/blog/ | grep -E '\.(md|mdx)$' || true)
+          NEW_POSTS=$(git diff --name-only HEAD~1 HEAD -- src/data/blogs/ | grep -E '\.(md|mdx)$' || true)
           if [ -n "$NEW_POSTS" ]; then
             echo "new_posts=true" >> $GITHUB_OUTPUT
             echo "posts=$NEW_POSTS" >> $GITHUB_OUTPUT
