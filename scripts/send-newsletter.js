@@ -57,7 +57,7 @@ async function sendNewsletter() {
 
     // Send email
     const emailData = await resend.emails.send({
-      from: "Sayantan <noreply@yourdomain.com>", // Replace with your verified domain
+      from: "Sayantan <web.dev.sayantan@gmail.com>", // Replace with your verified domain
       to: contacts.data.map((contact) => contact.email),
       subject: `New Post: ${latestPost.data.title}`,
       html: `
