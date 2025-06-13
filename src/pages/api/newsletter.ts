@@ -9,7 +9,6 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     // Check if request has body
     const contentType = request.headers.get("content-type");
-    console.log("Content-Type:", contentType);
     if (!contentType || !contentType.includes("application/json")) {
       return new Response(
         JSON.stringify({ error: "Content-Type must be application/json" }),
@@ -22,7 +21,6 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Get request text first to debug
     const bodyText = await request.text();
-    console.log("Request body:", bodyText);
 
     if (!bodyText) {
       return new Response(JSON.stringify({ error: "Request body is empty" }), {
@@ -86,8 +84,6 @@ export const POST: APIRoute = async ({ request }) => {
       email: email,
       audienceId: import.meta.env.RESEND_AUDIENCE_ID,
     });
-
-    console.log("Resend response:", data);
 
     return new Response(
       JSON.stringify({ message: "Successfully subscribed!" }),

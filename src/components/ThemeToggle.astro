@@ -51,19 +51,17 @@
     };
 
     // Apply theme to document
-    const applyTheme = (theme) => {
-      console.log("Applying theme:", theme);
+    const applyTheme = (theme: string | null) => {
       const root = document.documentElement;
       if (theme === "light") {
         root.classList.remove("dark");
       } else {
         root.classList.add("dark");
       }
-      localStorage.setItem("theme", theme);
+      localStorage.setItem("theme", theme!);
     };
 
     // Initialize theme
-    console.log("Initializing theme");
     const currentTheme = getTheme();
     applyTheme(currentTheme);
 
@@ -84,7 +82,6 @@
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", (e) => {
-        console.log("System theme changed:", e.matches ? "dark" : "light");
         if (!localStorage.getItem("theme")) {
           applyTheme(e.matches ? "dark" : "light");
         }

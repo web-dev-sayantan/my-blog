@@ -55,8 +55,6 @@
     button.textContent = "Subscribing...";
 
     try {
-      console.log("Sending request with email:", email);
-
       const response = await fetch("/api/newsletter", {
         method: "POST",
         headers: {
@@ -66,10 +64,7 @@
         body: JSON.stringify({ email }),
       });
 
-      console.log("Response status:", response.status);
-
       const data = await response.json();
-      console.log("Response data:", data);
 
       if (response.ok) {
         showMessage(data.message, "success");

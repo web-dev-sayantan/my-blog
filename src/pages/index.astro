@@ -7,8 +7,6 @@ const allPosts = await getCollection("blog", ({ data }) => {
   return !data.draft;
 });
 
-console.log("All posts:", allPosts);
-
 const sortedPosts = allPosts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
