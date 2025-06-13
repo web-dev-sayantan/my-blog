@@ -42,7 +42,7 @@ async function sendNewsletter() {
     console.log("Latest post:", latestPost.data.title);
 
     // Get all contacts from audience
-    const contacts = await resend.contacts.list({
+    const { data: contacts, error } = await resend.contacts.list({
       audienceId: process.env.RESEND_AUDIENCE_ID,
     });
 
