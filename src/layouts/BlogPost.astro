@@ -1,0 +1,94 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+export interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    pubDate: Date;
+    updatedDate?: Date;
+    heroImage?: string;
+    tags: string[];
+    category: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+const formattedDate = frontmatter.pubDate.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+  <article class="max-w-4xl mx-auto px-4 py-8">
+    <header class="mb-8">
+      <div class="mb-4">
+        <span
+          class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium capitalize"
+        >
+          {frontmatter.category}
+        </span>
+      </div>
+
+      <h1
+        class="text-4xl font-bold mb-4 leading-tight text-gray-900 dark:text-gray-100"
+      >
+        {frontmatter.title}
+      </h1>
+
+      <div class="flex items-center text-gray-600 dark:text-gray-400 mb-4">
+        <time datetime={frontmatter.pubDate.toISOString()}>
+          {formattedDate}
+        </time>
+        {
+          frontmatter.updatedDate && (
+            <span class="ml-4">
+              Updated:{" "}
+              {frontmatter.updatedDate.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </span>
+          )
+        }
+      </div>
+
+      {
+        frontmatter.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {frontmatter.tags.map((tag) => (
+              <span class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-2 py-1 rounded text-sm">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+    </header>
+
+    <div
+      class="text-gray-800 dark:text-gray-200 leading-relaxed space-y-4
+                [&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mt-8 [&>h1]:mb-4 [&>h1]:text-gray-900 [&>h1]:dark:text-gray-100
+                [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mt-6 [&>h2]:mb-3 [&>h2]:text-gray-900 [&>h2]:dark:text-gray-100
+                [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:mt-6 [&>h3]:mb-3 [&>h3]:text-gray-900 [&>h3]:dark:text-gray-100
+                [&>h4]:text-lg [&>h4]:font-semibold [&>h4]:mt-4 [&>h4]:mb-2 [&>h4]:text-gray-900 [&>h4]:dark:text-gray-100
+                [&>p]:mb-4 [&>p]:text-base
+                [&>ul]:mb-4 [&>ul]:ml-6 [&>ul]:list-disc
+                [&>ol]:mb-4 [&>ol]:ml-6 [&>ol]:list-decimal
+                [&>li]:mb-1
+                [&>blockquote]:border-l-4 [&>blockquote]:border-blue-500 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:my-4 [&>blockquote]:text-gray-700 [&>blockquote]:dark:text-gray-300
+                [&>pre]:bg-gray-900 [&>pre]:text-gray-100 [&>pre]:p-4 [&>pre]:rounded-lg [&>pre]:overflow-x-auto [&>pre]:my-4
+                [&_code]:bg-gray-100 [&_code]:dark:bg-gray-800 [&_code]:text-pink-600 [&_code]:dark:text-pink-400 [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-sm [&_code]:font-mono
+                [&>pre_code]:bg-transparent [&>pre_code]:text-gray-100 [&>pre_code]:p-0
+                [&_a]:text-blue-600 [&_a]:dark:text-blue-400 [&_a]:hover:underline
+                [&_strong]:font-semibold [&_strong]:text-gray-900 [&_strong]:dark:text-gray-100
+                [&_em]:italic
+                [&>hr]:border-gray-300 [&>hr]:dark:border-gray-600 [&>hr]:my-8"
+    >
+      <slot />
+    </div>
+  </article>
+</BaseLayout>

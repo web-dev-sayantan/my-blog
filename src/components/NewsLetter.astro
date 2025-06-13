@@ -1,0 +1,97 @@
+---
+// Newsletter signup component
+---
+
+<div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 my-8">
+  <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">
+    Subscribe to my newsletter
+  </h3>
+  <p class="text-gray-600 dark:text-gray-400 mb-4">
+    Get notified when I publish new posts about tech and life.
+  </p>
+
+  <form id="newsletter-form" class="flex gap-2">
+    <input
+      type="email"
+      id="email"
+      placeholder="your@email.com"
+      required
+      class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md
+             bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100
+             focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <button
+      type="submit"
+      class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700
+             focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors
+             disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      Subscribe
+    </button>
+  </form>
+
+  <div id="newsletter-message" class="mt-2 text-sm hidden"></div>
+</div>
+
+<script>
+  const form = document.getElementById("newsletter-form") as HTMLFormElement;
+  const message = document.getElementById(
+    "newsletter-message"
+  ) as HTMLDivElement;
+  const button = form.querySelector("button") as HTMLButtonElement;
+  const input = form.querySelector("input") as HTMLInputElement;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = input.value.trim();
+
+    if (!email) {
+      showMessage("Please enter your email address", "error");
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Subscribing...";
+
+    try {
+      console.log("Sending request with email:", email);
+
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      console.log("Response status:", response.status);
+
+      const data = await response.json();
+      console.log("Response data:", data);
+
+      if (response.ok) {
+        showMessage(data.message, "success");
+        input.value = "";
+      } else {
+        showMessage(data.error || "Subscription failed", "error");
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      showMessage("Something went wrong. Please try again.", "error");
+    }
+
+    button.disabled = false;
+    button.textContent = "Subscribe";
+  });
+
+  function showMessage(text: string, type: "success" | "error") {
+    message.textContent = text;
+    message.className =
+      type === "success"
+        ? "mt-2 text-sm text-green-600 dark:text-green-400"
+        : "mt-2 text-sm text-red-600 dark:text-red-400";
+    message.classList.remove("hidden");
+  }
+</script>

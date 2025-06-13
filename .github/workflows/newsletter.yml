@@ -1,0 +1,42 @@
+name: Send Newsletter on New Post
+
+on:
+  push:
+    branches: [main]
+    paths: ["src/content/blog/**"]
+
+jobs:
+  send-newsletter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for new blog posts
+        id: check-posts
+        run: |
+          NEW_POSTS=$(git diff --name-only HEAD~1 HEAD -- src/content/blog/ | grep -E '\.(md|mdx)$' || true)
+          if [ -n "$NEW_POSTS" ]; then
+            echo "new_posts=true" >> $GITHUB_OUTPUT
+            echo "posts=$NEW_POSTS" >> $GITHUB_OUTPUT
+          else
+            echo "new_posts=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send newsletter
+        if: steps.check-posts.outputs.new_posts == 'true'
+        run: node scripts/send-newsletter.js
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+          SITE_URL: ${{ secrets.SITE_URL }}
